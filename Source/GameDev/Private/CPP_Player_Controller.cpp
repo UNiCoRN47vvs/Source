@@ -34,3 +34,12 @@ void ACPP_Player_Controller::UpdateLevel(double current_exp, double need_exp, in
 }
 
 //-------------------------------------------------------------------------------------------------------------
+
+//GET
+
+FGameplayTagContainer ACPP_Player_Controller::GetControllerStatus()
+{
+	return Controller_Status;
+}
+
+//-------------------------------------------------------------------------------------------------------------
