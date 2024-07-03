@@ -35,7 +35,6 @@ void ACPP_Master_Item::InitParams()
 	if (!IsValid(player_controller))
 		return;
 
-
 	FGameplayTag temp_tag = UGameplayTagsManager::Get().RequestGameplayTag(FName("ControllerStatus.L_Alt"));
 	if (player_controller->Controller_Status.HasTag(temp_tag))
 	{
