@@ -21,6 +21,7 @@ public:
 	void UpdateHP(double current_hp, double max_hp);
 	void UpdateMP(double current_mp, double max_mp);
 	void UpdateLevel(double current_exp, double need_exp, int level);
+	void UpdateInventory();
 	FGameplayTagContainer GetControllerStatus();
 
 

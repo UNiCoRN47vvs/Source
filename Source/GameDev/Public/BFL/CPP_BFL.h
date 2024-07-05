@@ -18,7 +18,7 @@ public:
 
 	UCPP_BFL();
 
-	UFUNCTION(BlueprintCallable) static void GetUseValueDTR(FName dtr_name, int item_level, double &return_use_value, FS_Items &return_item_row, FS_Rune_Stats &return_rune_stats);
+	UFUNCTION(BlueprintCallable) static void GetUseValueDTR(FName dtr_name, int item_level, double &return_use_value, FS_Items &return_item_row, FS_Rune_Stats& return_rune_stats);
 
 	static UDataTable* Data_Table;
 };

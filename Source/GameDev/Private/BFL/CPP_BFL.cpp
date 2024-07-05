@@ -19,6 +19,8 @@ UCPP_BFL::UCPP_BFL()
 	}
 }
 
+//-------------------------------------------------------------------------------------------------------------
+
 [[__UNREAL_ENGINE_UFUNCTION__]] void UCPP_BFL::GetUseValueDTR(FName dtr_name, int item_level, double &return_use_value, FS_Items &return_item_row, FS_Rune_Stats &return_rune_stats)
 {
 	const FS_Items *temp_table_row = Data_Table->FindRow<FS_Items>(dtr_name, "GENERAL", true);
