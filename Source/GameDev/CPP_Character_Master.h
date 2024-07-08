@@ -26,6 +26,7 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent);
 
 	UFUNCTION(BlueprintCallable) void PlusCharacterParameters(FS_Parameters s_parameters, bool basic_change);
+	UFUNCTION(BlueprintCallable) void PickUpFunc(FName item_row_name, int amount, int item_level);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status") FGameplayTagContainer Character_Status;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Structures") FS_Parameters Basic_Character_Parameters; //Базовые статы
@@ -44,10 +45,13 @@ protected:
 
 	virtual void BeginPlay();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info") FDataTableRowHandle DT_All_Items;
 
 private:
 	
+	bool IsInventoryFull();
 	UFUNCTION(BlueprintCallable) void Character_Movement(double action_value_x, double action_value_y);
+
 
 };
 

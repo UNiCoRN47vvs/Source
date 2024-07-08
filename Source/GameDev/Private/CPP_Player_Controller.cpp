@@ -8,6 +8,11 @@
 #include "Widget/CPPW_Inventory_Slot.h"
 #include "Widget/CPPW_Chest.h"
 #include "Widget/CPPW_Portal_Altar.h"
+#include "Widget/CPPW_Rune_Menu.h"
+#include "Widget/CPPW_Upgrade_Menu.h"
+#include "Widget/CPPW_Inventory_Slot.h"
+#include "Widget/CPPW_Pick_Up_Info.h"
+#include "Widget/CPPW_Pick_Up_Menu.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameDev/CPP_Character_Master.h"
 #include "GameDev/CPP_Stats_Component.h"
@@ -44,6 +49,7 @@ void ACPP_Player_Controller::UpdateLevel(double current_exp, double need_exp, in
 	Main_HUD->WBP_Level_Bar->Update_EXP_Bar(current_exp, need_exp, level);
 }
 
+
 void ACPP_Player_Controller::UpdateInventory()
 {
 	auto *character = Cast<ACPP_Character_Master>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
@@ -75,6 +81,14 @@ void ACPP_Player_Controller::UpdateInventory()
 	auto *portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), ACPP_Portal_Altar::StaticClass()));
 	if (portal_altar)
 		Main_HUD->WBP_Portal_Altar->Portal_Altar_Slot->SetNewSlot(portal_altar->Item_Structure);
+
+	Main_HUD->WBP_Rune_Menu->InitParamsRuneMenu();
+
+	for (int i = 0; i < Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage.Num(); i++)
+	{
+		Main_HUD->WBP_Upgrade_Menu->Upgrade_Slot_Widget[i]->SetNewSlot(Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage[i]);
+	}
+
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -87,3 +101,16 @@ FGameplayTagContainer ACPP_Player_Controller::GetControllerStatus()
 }
 
 //-------------------------------------------------------------------------------------------------------------
+
+void ACPP_Player_Controller::PickUpItemInfo(FName name, int amount)
+{
+	switch (Main_HUD->WBP_Inventory->GetVisibility())
+	{
+		case ESlateVisibility::Collapsed:
+		case ESlateVisibility::Hidden:
+		auto *temp_widget = CreateWidget<UCPPW_Pick_Up_Info>(Pick_Up_Info);
+		Main_HUD->WBP_Pick_Up_Menu->Vertical_Box->AddChild(temp_widget);
+		break;
+
+	}
+}

@@ -12,6 +12,9 @@ class UCPPW_Level_Bar;
 class UCPPW_Inventory;
 class UCPPW_Chest;
 class UCPPW_Portal_Altar;
+class UCPPW_Rune_Menu;
+class UCPPW_Upgrade_Menu;
+class UCPPW_Pick_Up_Menu;
 struct FS_Items;
 
 //-------------------------------------------------------------------------------------------------------------
@@ -30,6 +33,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) class UCPPW_Inventory* WBP_Inventory;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) class UCPPW_Chest* WBP_Chest;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) class UCPPW_Portal_Altar* WBP_Portal_Altar;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) class UCPPW_Rune_Menu* WBP_Rune_Menu;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) class UCPPW_Upgrade_Menu* WBP_Upgrade_Menu;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) class UCPPW_Pick_Up_Menu* WBP_Pick_Up_Menu;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Drag & Drop") E_Storage_Type Drop_Storage_Type;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Drag & Drop") E_Storage_Type Drag_Storage_Type;
