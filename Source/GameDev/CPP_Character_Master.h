@@ -11,6 +11,8 @@
 class UCPP_Stats_Component;
 class UCPP_Inventory_Component;
 class UCPP_Chest_Component;
+class ACPP_Master_Item;
+struct FS_Items;
 
 //-------------------------------------------------------------------------------------------------------------
 
@@ -46,11 +48,14 @@ protected:
 	virtual void BeginPlay();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info") FDataTableRowHandle DT_All_Items;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character_Master") TSubclassOf<ACPP_Master_Item> Master_Item;
 
 private:
 	
 	bool IsInventoryFull();
+	void AddItemToSlot(int amount, FS_Items s_items, int item_level, TArray<FS_Items> inventory_items);
 	UFUNCTION(BlueprintCallable) void Character_Movement(double action_value_x, double action_value_y);
+
 
 
 };

@@ -1,4 +1,5 @@
 #include "Widget/CPPW_Main_HUD.h"
+#include "Widget/CPPW_Upgrade_Menu.h"
 #include "GameDev/CPP_Inventory_Component.h"
 #include "GameDev/CPP_Stats_Component.h"
 #include "GameDev/CPP_Chest_Component.h"
@@ -14,6 +15,10 @@
 void UCPPW_Main_HUD::OnDrop()
 {
 	ACPP_Character_Master *player_character = Cast<ACPP_Character_Master>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
+	UCPP_Chest_Component *character_chest = player_character->GetChestComponent();
+	ACPP_Portal_Altar* temp_portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), Portal_Altar));
+	UCPP_Stats_Component *character_stats = player_character->GetStatsComponent();
 
 	if (!IsValid(player_character))
 	{
@@ -24,8 +29,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//Inventory to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-
 		if (Drop_Index == Drag_Index || !character_inventory->Items_Array[Drag_Index].Is_Not_Empty)
 			return;
 
@@ -47,7 +50,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//Chest to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Chest)
 	{
-		UCPP_Chest_Component *character_chest = player_character->GetChestComponent();
 
 		if (Drop_Index == Drag_Index || !character_chest->Items_Array[Drag_Index].Is_Not_Empty)
 			return;
@@ -70,9 +72,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//Inventory to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Chest)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-		UCPP_Chest_Component *character_chest = player_character->GetChestComponent();
-
 		if (Drop_Index == Drag_Index || !character_inventory->Items_Array[Drag_Index].Is_Not_Empty)
 			return;
 
@@ -94,9 +93,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//Chest to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-		UCPP_Chest_Component *character_chest = player_character->GetChestComponent();
-
 		if (Drop_Index == Drag_Index || !character_chest->Items_Array[Drag_Index].Is_Not_Empty)
 			return;
 
@@ -118,8 +114,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//Inventory to DropZone
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Drop_Zone)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-
 		FName temp_name;
 		if (character_inventory->Items_Array[Drag_Index].RN_ID == temp_name)
 			return;
@@ -134,8 +128,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//Chest to DropZone
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Drop_Zone)
 	{
-		UCPP_Chest_Component *character_chest = player_character->GetChestComponent();
-
 		FName temp_name;
 		if (character_chest->Items_Array[Drag_Index].RN_ID == temp_name)
 			return;
@@ -150,14 +142,11 @@ void UCPPW_Main_HUD::OnDrop()
 	//Inventory to PortalAltar
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Portal_Altar)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-
 		if (character_inventory->Items_Array[Drag_Index].Item_Type != E_Items_Type::E_Portal)
 			return;
 
 		int temp_amount = character_inventory->Items_Array[Drag_Index].Amount - 1;
 		FS_Items temp_item = character_inventory->Items_Array[Drag_Index];
-		ACPP_Portal_Altar* temp_portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), Portal_Altar));
 
 		if (temp_amount > 0)
 		{
@@ -174,16 +163,12 @@ void UCPPW_Main_HUD::OnDrop()
 	//PortalAltar to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Portal_Altar && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-		ACPP_Portal_Altar* temp_portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), Portal_Altar));
-
 		if (!character_inventory->Items_Array[Drop_Index].Is_Not_Empty)
 		{
 			FS_Items temp_item;
 
 			character_inventory->Items_Array[Drop_Index] = temp_portal_altar->Item_Structure;
 			temp_portal_altar->Item_Structure = temp_item;
-			
 		}
 		else
 		{
@@ -197,13 +182,9 @@ void UCPPW_Main_HUD::OnDrop()
 		}
 	}
 
-
 	//Inventory to RuneMenu
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Rune_Menu)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-		UCPP_Stats_Component *character_stats = player_character->GetStatsComponent();
-
 		if (character_inventory->Items_Array[Drag_Index].Item_Type != E_Items_Type::E_Rune)
 			return;
 
@@ -217,9 +198,6 @@ void UCPPW_Main_HUD::OnDrop()
 	//RuneMenu to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Rune_Menu && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
-		UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
-		UCPP_Stats_Component *character_stats = player_character->GetStatsComponent();
-
 		if (character_inventory->Items_Array[Drop_Index].Is_Not_Empty)
 			return;
 
@@ -243,6 +221,50 @@ void UCPPW_Main_HUD::OnDrop()
 		character_inventory->Items_Array[Drop_Index] = character_stats->Rune_Array[Drag_Index];
 		character_stats->Rune_Array[Drag_Index] = temp_drag;
 		character_stats->Rune_Array_Check[Drag_Index] = false;
+	}
+
+	//Inventory to Upgrade
+	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Upgrate)
+	{
+		FS_Items temp_item = character_inventory->Items_Array[Drag_Index];
+		if (Drop_Index != 1)
+		{
+			for (auto& item : WBP_Upgrade_Menu->Upgrade_Storage)
+			{
+				if (!item.Is_Not_Empty)
+					continue;
+
+				player_character->PickUpFunc(item.RN_ID, item.Amount, item.Item_Level);
+				item = FS_Items{};
+			}
+
+			temp_item.Amount = --temp_item.Amount;
+			WBP_Upgrade_Menu->Upgrade_Storage[Drop_Index] = temp_item;
+			WBP_Upgrade_Menu->Upgrade_Storage[Drop_Index].Amount = 1;
+
+			if (temp_item.Amount <= 0)
+				temp_item = FS_Items{};
+
+			WBP_Upgrade_Menu->UpdateText();
+		}
+		else
+		{
+			auto temp_item_type = WBP_Upgrade_Menu->Upgrade_Storage[0].Item_Type == temp_item.Item_Type;
+			int temp_item_level = WBP_Upgrade_Menu->Upgrade_Storage[0].Item_Level == temp_item.Item_Level;
+
+			if (!(temp_item_type && temp_item_level))
+				return;
+
+			temp_item.Amount = --temp_item.Amount;
+			WBP_Upgrade_Menu->Upgrade_Storage[Drop_Index] = temp_item;
+			WBP_Upgrade_Menu->Upgrade_Storage[Drop_Index].Amount = 1;
+
+			if (temp_item.Amount <= 0)
+				temp_item = FS_Items{};
+
+		}
+
+
 	}
 
 }

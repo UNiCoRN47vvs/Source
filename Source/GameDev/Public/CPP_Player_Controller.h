@@ -36,7 +36,7 @@ public:
  
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player_Controller") TSubclassOf<UCPPW_Pick_Up_Info> *Pick_Up_Info;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player_Controller") UCPPW_Pick_Up_Info *Pick_Up_Info;
 
 private:
 
