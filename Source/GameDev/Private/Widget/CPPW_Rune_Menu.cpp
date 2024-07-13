@@ -9,22 +9,12 @@
 
 void UCPPW_Rune_Menu::NativeConstruct()
 {
-
+	Super::NativeConstruct();
 	Inventory_Slot_Array.Add(WBP_Inventory_Slot);
 	Inventory_Slot_Array.Add(WBP_Inventory_Slot_1);
 	Inventory_Slot_Array.Add(WBP_Inventory_Slot_2);
 	Inventory_Slot_Array.Add(WBP_Inventory_Slot_3);
 	Inventory_Slot_Array.Add(WBP_Inventory_Slot_4);
-
-	InitParamsRuneMenu();
-}
-
-//-------------------------------------------------------------------------------------------------------------
-
-void UCPPW_Rune_Menu::InitParamsRuneMenu()
-{
-	TArray<UVerticalBox*> Vertical_Text_Box_Array;
-	TArray<UTextBlock*> Text_Block_Array;
 
 	Vertical_Text_Box_Array.Add(Vertical_Text_Box);
 	Vertical_Text_Box_Array.Add(Vertical_Text_Box_1);
@@ -38,6 +28,13 @@ void UCPPW_Rune_Menu::InitParamsRuneMenu()
 	Text_Block_Array.Add(Text_Block_3);
 	Text_Block_Array.Add(Text_Block_4);
 
+	InitParamsRuneMenu();
+}
+
+//-------------------------------------------------------------------------------------------------------------
+
+void UCPPW_Rune_Menu::InitParamsRuneMenu()
+{
 	for (int i = 0; i < Inventory_Slot_Array.Num(); i++)
 	{
 		Text_Block_Array[i]->SetText(FText::FromString("Empty"));
@@ -71,7 +68,6 @@ void UCPPW_Rune_Menu::InitParamsRuneMenu()
 
 				Vertical_Text_Box_Array[i]->AddChildToVerticalBox(temp_widget);
 			}
-
 
 			if (!temp_character_stats->Rune_Array_Check[Inventory_Slot_Array[i]->Index])
 			{

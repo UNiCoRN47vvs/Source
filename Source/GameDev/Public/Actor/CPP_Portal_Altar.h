@@ -4,12 +4,10 @@
 #include "GameFramework/Actor.h"
 #include "Structure/S_Items.h"
 #include "CPP_Portal_Altar.generated.h"
-
 //-------------------------------------------------------------------------------------------------------------
 
 
 //-------------------------------------------------------------------------------------------------------------
-
 UCLASS()
 class GAMEDEV_API ACPP_Portal_Altar : public AActor
 {
@@ -25,7 +23,5 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-
 };
-
 //-------------------------------------------------------------------------------------------------------------

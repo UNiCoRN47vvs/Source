@@ -4,28 +4,27 @@
 #include "GameDev/CPP_Stats_Component.h"
 #include "GameDev/CPP_Chest_Component.h"
 #include "GameDev/CPP_Character_Master.h"
+#include "CPP_Player_Controller.h"
 #include "Widget/CPPW_HealthBar.h"
 #include "Widget/CPPW_Level_Bar.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structure/S_Items.h"
 #include "Actor/CPP_Portal_Altar.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
-void UCPPW_Main_HUD::OnDrop()
+void UCPPW_Main_HUD::DragDropLogic()
 {
 	ACPP_Character_Master *player_character = Cast<ACPP_Character_Master>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	ACPP_Player_Controller *player_controller = Cast<ACPP_Player_Controller>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	UCPP_Inventory_Component *character_inventory = player_character->GetInventoryComponent();
 	UCPP_Chest_Component *character_chest = player_character->GetChestComponent();
 	ACPP_Portal_Altar* temp_portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), Portal_Altar));
 	UCPP_Stats_Component *character_stats = player_character->GetStatsComponent();
 
-	if (!IsValid(player_character))
+	if (!IsValid(player_character) || !IsValid(player_controller))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 4.0, FColor::Blue, TEXT("CPPW_Main_HUD, player_character is not valid!"));
+		GEngine->AddOnScreenDebugMessage(-1, 4.0, FColor::Blue, TEXT("CPPW_Main_HUD, player_character or player_controller is not valid!"));
 		return;
 	}
-
 	//Inventory to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
@@ -34,7 +33,7 @@ void UCPPW_Main_HUD::OnDrop()
 
 		FS_Items local_drag = character_inventory->Items_Array[Drag_Index];
 		FS_Items local_drop = character_inventory->Items_Array[Drop_Index];
-		
+
 		if (local_drag.RN_ID == local_drop.RN_ID && !(local_drop.Amount == local_drop.Max_Count))
 		{
 			AddItemSwitchItem(character_inventory->Items_Array, character_inventory->Items_Array);
@@ -46,7 +45,6 @@ void UCPPW_Main_HUD::OnDrop()
 
 
 	}
-
 	//Chest to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Chest)
 	{
@@ -68,7 +66,6 @@ void UCPPW_Main_HUD::OnDrop()
 
 
 	}
-
 	//Inventory to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Chest)
 	{
@@ -89,7 +86,6 @@ void UCPPW_Main_HUD::OnDrop()
 		}
 
 	}
-
 	//Chest to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
@@ -110,7 +106,6 @@ void UCPPW_Main_HUD::OnDrop()
 		}
 
 	}
-
 	//Inventory to DropZone
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Drop_Zone)
 	{
@@ -124,7 +119,6 @@ void UCPPW_Main_HUD::OnDrop()
 		FS_Items temp_item;
 		character_inventory->Items_Array[Drag_Index] = temp_item;
 	}
-
 	//Chest to DropZone
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Drop_Zone)
 	{
@@ -138,7 +132,6 @@ void UCPPW_Main_HUD::OnDrop()
 		FS_Items temp_item;
 		character_chest->Items_Array[Drag_Index] = temp_item;
 	}
-
 	//Inventory to PortalAltar
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Portal_Altar)
 	{
@@ -159,7 +152,6 @@ void UCPPW_Main_HUD::OnDrop()
 			temp_portal_altar->Item_Structure = temp_item;
 		}
 	}
-
 	//PortalAltar to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Portal_Altar && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
@@ -181,7 +173,6 @@ void UCPPW_Main_HUD::OnDrop()
 			temp_portal_altar->Item_Structure = temp_item;
 		}
 	}
-
 	//Inventory to RuneMenu
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Rune_Menu)
 	{
@@ -194,7 +185,6 @@ void UCPPW_Main_HUD::OnDrop()
 		character_stats->Rune_Array[Drop_Index] = temp_item;
 
 	}
-
 	//RuneMenu to Inventory
 	if (Drag_Storage_Type == E_Storage_Type::E_Rune_Menu && Drop_Storage_Type == E_Storage_Type::E_Inventory)
 	{
@@ -215,14 +205,13 @@ void UCPPW_Main_HUD::OnDrop()
 		temp_parameters.Protection_Rate = -temp_rune.Protection_Rate;
 		temp_parameters.Power_Rate = -temp_rune.Power_Rate;
 		temp_parameters.Attack_Speed = -temp_rune.Attack_Speed;
-		
+
 		player_character->PlusCharacterParameters(temp_parameters, false);
 
 		character_inventory->Items_Array[Drop_Index] = character_stats->Rune_Array[Drag_Index];
 		character_stats->Rune_Array[Drag_Index] = temp_drag;
 		character_stats->Rune_Array_Check[Drag_Index] = false;
 	}
-
 	//Inventory to Upgrade
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Upgrate)
 	{
@@ -266,11 +255,71 @@ void UCPPW_Main_HUD::OnDrop()
 
 
 	}
+	//Upgrade to Inventory
+	if (Drag_Storage_Type == E_Storage_Type::E_Upgrate && Drop_Storage_Type == E_Storage_Type::E_Inventory)
+	{
+		FS_Items temp_item = character_inventory->Items_Array[Drop_Index];
+		FS_Items temp_upgrade_storage = WBP_Upgrade_Menu->Upgrade_Storage[Drag_Index];
+		FS_Items temp_empty;
+		int temp_sum_amount = temp_item.Amount + temp_upgrade_storage.Amount;
+
+		if (temp_item.Is_Not_Empty)
+		{
+			if (temp_upgrade_storage.Item_Type != temp_item.Item_Type || temp_upgrade_storage.Item_Level != temp_item.Item_Level)
+			{
+				if (temp_item.Amount > 1)
+				{
+					--character_inventory->Items_Array[Drop_Index].Amount;
+					WBP_Upgrade_Menu->Upgrade_Storage[Drag_Index] = character_inventory->Items_Array[Drop_Index];
+					for (auto& item : character_inventory->Items_Array)
+					{
+						if (!item.Is_Not_Empty)
+						{
+							item = temp_upgrade_storage;
+							break;
+						}
+					}
+				}
+				else
+				{
+					WBP_Upgrade_Menu->Upgrade_Storage[Drag_Index] = temp_item;
+					character_inventory->Items_Array[Drop_Index] = temp_upgrade_storage;
+				}
+			}
+			else if(temp_sum_amount <= temp_item.Max_Count)
+			{
+				character_inventory->Items_Array[Drop_Index].Amount = temp_sum_amount;
+				WBP_Upgrade_Menu->Upgrade_Storage[Drag_Index] = temp_empty;
+			}
+		}
+		else
+		{
+			character_inventory->Items_Array[Drop_Index] = temp_upgrade_storage;
+			WBP_Upgrade_Menu->Upgrade_Storage[Drag_Index] = temp_empty;
+			player_character->PickUpFunc(temp_upgrade_storage.RN_ID, temp_upgrade_storage.Amount, temp_upgrade_storage.Item_Level);
+		}
+
+		WBP_Upgrade_Menu->UpdateText();
+	}
+}
+//-------------------------------------------------------------------------------------------------------------
+bool UCPPW_Main_HUD::OnDrop(const FGeometry &MyGeometry, const FDragDropEvent &DragDropEvent, UDragDropOperation *Operation)
+{
+	ACPP_Player_Controller *player_controller = Cast<ACPP_Player_Controller>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (!IsValid(player_controller))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 4.0, FColor::Blue, TEXT("CPPW_Main_HUD, player_controller is not valid!"));
+		return false;
+	}
+
+	DragDropLogic();
+	Drop_Storage_Type = E_Storage_Type::E_None;
+	Drag_Storage_Type = E_Storage_Type::E_None;
+	player_controller->UpdateInventory();
+	return true;
 
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 void UCPPW_Main_HUD::AddItemSwitchItem(TArray<FS_Items>& drag_array, TArray<FS_Items>& drop_array)
 {
 	int local_amount = drop_array[Drop_Index].Max_Count - drop_array[Drop_Index].Max_Count;
@@ -287,5 +336,4 @@ void UCPPW_Main_HUD::AddItemSwitchItem(TArray<FS_Items>& drag_array, TArray<FS_I
 		drag_array[Drag_Index] = temp;
 	}
 }
-
 //-------------------------------------------------------------------------------------------------------------

@@ -26,13 +26,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UCPPW_Inventory_Slot *WBP_Inventory_Slot_3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UCPPW_Inventory_Slot *WBP_Inventory_Slot_4;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UVerticalBox *Vertical_Text_Box;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UVerticalBox *Vertical_Text_Box_1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UVerticalBox *Vertical_Text_Box_2;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UVerticalBox *Vertical_Text_Box_3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UVerticalBox *Vertical_Text_Box_4;
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UTextBlock *Text_Block;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UTextBlock *Text_Block_1;
@@ -42,6 +40,8 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget") TArray<UCPPW_Inventory_Slot*> Inventory_Slot_Array;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget") TArray<UVerticalBox*> Vertical_Text_Box_Array;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget") TArray<UTextBlock*> Text_Block_Array;
 
 
 protected:

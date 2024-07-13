@@ -18,38 +18,28 @@
 #include "GameDev/CPP_Stats_Component.h"
 #include "GameDev/CPP_Inventory_Component.h"
 #include "GameDev/CPP_Chest_Component.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
 void ACPP_Player_Controller::BeginPlay()
 {
 	Main_HUD = CreateWidget<UCPPW_Main_HUD>(GetWorld(), UCPPW_Main_HUD::StaticClass());
 	Main_HUD->AddToViewport(0);
 
 	Super::BeginPlay();
-
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 //UPDATE
-
 void ACPP_Player_Controller::UpdateHP(double current_hp, double max_hp)
 {
 	Main_HUD->WBP_Health_Bar->Update_HP_Bar(current_hp, max_hp);
 }
-
 void ACPP_Player_Controller::UpdateMP(double current_mp, double max_mp)
 {
 	Main_HUD->WBP_Mana_Bar->Update_MP_Bar(current_mp, max_mp);
 }
-
 void ACPP_Player_Controller::UpdateLevel(double current_exp, double need_exp, int level)
 {
 	Main_HUD->WBP_Level_Bar->Update_EXP_Bar(current_exp, need_exp, level);
 }
-
-
 void ACPP_Player_Controller::UpdateInventory()
 {
 	auto *character = Cast<ACPP_Character_Master>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
@@ -77,9 +67,8 @@ void ACPP_Player_Controller::UpdateInventory()
 			item_icon->SetNewSlot(chest_component->Items_Array[i]);
 	}
 
-
 	auto *portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), ACPP_Portal_Altar::StaticClass()));
-	if (portal_altar)
+	if (IsValid(portal_altar) && Main_HUD->WBP_Portal_Altar)
 		Main_HUD->WBP_Portal_Altar->Portal_Altar_Slot->SetNewSlot(portal_altar->Item_Structure);
 
 	Main_HUD->WBP_Rune_Menu->InitParamsRuneMenu();
@@ -90,18 +79,13 @@ void ACPP_Player_Controller::UpdateInventory()
 	}
 
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 //GET
-
 FGameplayTagContainer ACPP_Player_Controller::GetControllerStatus()
 {
 	return Controller_Status;
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 void ACPP_Player_Controller::PickUpItemInfo(FName name, int amount)
 {
 	switch (Main_HUD->WBP_Inventory->GetVisibility())

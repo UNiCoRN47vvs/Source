@@ -20,15 +20,14 @@ class GAMEDEV_API UCPPW_Upgrade_Menu : public UUserWidget
 public:
 
 	UFUNCTION(BlueprintCallable) void UpdateText();
+	UFUNCTION(BlueprintCallable) void CloseMenu();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UCPPW_Inventory_Slot *WBP_Inventory_Slot;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UCPPW_Inventory_Slot *WBP_Inventory_Slot_1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UTextBlock *Upgrade_Chance;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget", meta = (BindWidget)) UTextBlock *Upgrade_Fails;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Upgrade_Menu") TArray<FS_Items> Upgrade_Storage;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Upgrade_Menu") TArray<UCPPW_Inventory_Slot*> Upgrade_Slot_Widget;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Upgrade_Menu") int Upgrade_Fails_Count;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Upgrade_Menu") double Fails_Chance;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Upgrade_Menu") double Chance;
