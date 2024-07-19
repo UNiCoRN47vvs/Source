@@ -6,13 +6,9 @@
 #include "Widget/CPPW_Main_HUD.h"
 #include "Enum/E_Current_Actions.h"
 #include "CPP_Player_Controller.generated.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
 class UCPPW_Pick_Up_Info;
-
 //-------------------------------------------------------------------------------------------------------------
-
 UCLASS()
 class GAMEDEV_API ACPP_Player_Controller : public APlayerController
 {
@@ -29,7 +25,7 @@ public:
 	UFUNCTION(BlueprintCallable) void UpdateInventory();
 	FGameplayTagContainer GetControllerStatus();
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player_Controller") TSubclassOf<UCPPW_Main_HUD> Main_Hud_Widget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player_Controller") E_Current_Actions Current_Actions;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Main HUD") UCPPW_Main_HUD *Main_HUD;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status") FGameplayTagContainer Controller_Status;
@@ -41,5 +37,4 @@ protected:
 private:
 
 };
-
 //-------------------------------------------------------------------------------------------------------------

@@ -23,7 +23,7 @@ class GAMEDEV_API UCPPW_Inventory_Slot : public UUserWidget
 public:
 
 	UFUNCTION(BlueprintCallable) void GetRuneStats();
-	UFUNCTION(BlueprintCallable) void SetNewSlot(FS_Items s_items);
+	UFUNCTION(BlueprintCallable) void SetNewSlot(FName name, int amount, TSoftObjectPtr<UTexture2D> icon);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget Var") int Amount;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget Var") int Level;

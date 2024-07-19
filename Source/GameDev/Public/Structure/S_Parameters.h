@@ -30,6 +30,25 @@ struct GAMEDEV_API FS_Parameters: public FTableRowBase
 
 		return Result;
 	}
+	
+	FS_Parameters operator-(const FS_Parameters& other) const
+	{
+		FS_Parameters Result;
+
+		Result.HP_Max = this->HP_Max - other.HP_Max;
+		Result.HP_Regen = this->HP_Regen - other.HP_Regen;
+		Result.MP_Max = this->MP_Max - other.MP_Max;
+		Result.MP_Regen = this->MP_Regen - other.MP_Regen;
+		Result.Evasion = this->Evasion - other.Evasion;
+		Result.Hit_Rate_Chance = this->Hit_Rate_Chance - other.Hit_Rate_Chance;
+		Result.Crit_Rate_Chance = this->Crit_Rate_Chance - other.Crit_Rate_Chance;
+		Result.Protection_Rate = this->Protection_Rate - other.Protection_Rate;
+		Result.Power_Rate = this->Power_Rate - other.Power_Rate;
+		Result.Attack_Speed = this->Attack_Speed - other.Attack_Speed;
+
+
+		return Result;
+	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters") double HP_Current = 0.0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters") double HP_Max = 0.0;
