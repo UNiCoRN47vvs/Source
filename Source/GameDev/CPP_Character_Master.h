@@ -10,6 +10,7 @@ class UCPP_Stats_Component;
 class UCPP_Inventory_Component;
 class UCPP_Chest_Component;
 class ACPP_Master_Item;
+struct FS_Rune_Stats;
 struct FS_Items;
 //-------------------------------------------------------------------------------------------------------------
 UCLASS()
@@ -24,7 +25,10 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent);
 
 	UFUNCTION(BlueprintCallable) void PlusCharacterParameters(FS_Parameters s_parameters, bool basic_change);
-	UFUNCTION(BlueprintCallable) void PickUpFunc(FName item_row_name, int amount, int item_level);
+	UFUNCTION(BlueprintCallable) void MinusCharacterParameters(FS_Parameters s_parameters, bool basic_change);
+	UFUNCTION(BlueprintCallable) void SetCharacterParameters();
+	UFUNCTION(BlueprintCallable) bool PickUpFunc(FName item_row_name, int amount, int item_level);
+	UFUNCTION(BlueprintCallable) void GetUseValue(FName item_row_name, int item_level, double &use_value, FS_Items &item_row, FS_Rune_Stats &rune_stats);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status") FGameplayTagContainer Character_Status;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Structures") FS_Parameters Basic_Character_Parameters; //Базовые статы
@@ -46,7 +50,8 @@ protected:
 private:
 	
 	bool IsInventoryFull();
-	void AddItemToSlot(int amount, FS_Items s_items, int item_level, TArray<FS_Items> inventory_items);
+	void ChangeRuneStats(const double parameter,const int item_level, double &rune_stats_result,const double value);
+	void AddItemToSlot(int amount, FS_Items s_items, int item_level);
 	UFUNCTION(BlueprintCallable) void Character_Movement(double action_value_x, double action_value_y);
 };
 //-------------------------------------------------------------------------------------------------------------

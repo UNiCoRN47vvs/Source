@@ -1,14 +1,10 @@
 #include "CPP_Inventory_Component.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
 UCPP_Inventory_Component::UCPP_Inventory_Component()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 void UCPP_Inventory_Component::BeginPlay()
 {
 	if (Items_Array.Num() <= Max_Inventory_Slots)
@@ -20,10 +16,7 @@ void UCPP_Inventory_Component::BeginPlay()
 			Items_Array.Add(temp);
 		}
 	}
-
 	Super::BeginPlay();
-	
 }
-
 //-------------------------------------------------------------------------------------------------------------
 
