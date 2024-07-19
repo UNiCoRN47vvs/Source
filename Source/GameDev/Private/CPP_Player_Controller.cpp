@@ -21,7 +21,7 @@
 //-------------------------------------------------------------------------------------------------------------
 void ACPP_Player_Controller::BeginPlay()
 {
-	Main_HUD = CreateWidget<UCPPW_Main_HUD>(GetWorld(), UCPPW_Main_HUD::StaticClass());
+	Main_HUD = CreateWidget<UCPPW_Main_HUD>(GetWorld(), Main_Hud_Widget);
 	Main_HUD->AddToViewport(0);
 
 	Super::BeginPlay();
@@ -55,29 +55,44 @@ void ACPP_Player_Controller::UpdateInventory()
 
 	for (int i = 0; i < inventory_component->Items_Array.Num(); i++)
 	{
+		if (!Main_HUD->WBP_Inventory)
+			break;
+
+		if (!inventory_component->Items_Array[i].Is_Not_Empty)
+			continue;
+
 		auto *item_icon = Cast<UCPPW_Inventory_Slot>(Main_HUD->WBP_Inventory->Uniform_Grid_Panel->GetChildAt(i));
 		if (item_icon)
-			item_icon->SetNewSlot(inventory_component->Items_Array[i]);
+			item_icon->SetNewSlot(inventory_component->Items_Array[i].RN_ID, inventory_component->Items_Array[i].Amount, inventory_component->Items_Array[i].Item_Icon);
 	}
 	
 	for (int i = 0; i < chest_component->Items_Array.Num(); i++)
 	{
+		if (!Main_HUD->WBP_Chest)
+			break;
+
+		if (!chest_component->Items_Array[i].Is_Not_Empty)
+			continue;
+
 		auto *item_icon = Cast<UCPPW_Inventory_Slot>(Main_HUD->WBP_Chest->Uniform_Grid_Panel->GetChildAt(i));
 		if (item_icon)
-			item_icon->SetNewSlot(chest_component->Items_Array[i]);
+			item_icon->SetNewSlot(chest_component->Items_Array[i].RN_ID, chest_component->Items_Array[i].Amount, chest_component->Items_Array[i].Item_Icon);
 	}
 
 	auto *portal_altar = Cast<ACPP_Portal_Altar>(UGameplayStatics::GetActorOfClass(GetWorld(), ACPP_Portal_Altar::StaticClass()));
 	if (IsValid(portal_altar) && Main_HUD->WBP_Portal_Altar)
-		Main_HUD->WBP_Portal_Altar->Portal_Altar_Slot->SetNewSlot(portal_altar->Item_Structure);
+		Main_HUD->WBP_Portal_Altar->Portal_Altar_Slot->SetNewSlot(portal_altar->Item_Structure.RN_ID, portal_altar->Item_Structure.Amount, portal_altar->Item_Structure.Item_Icon);
 
-	Main_HUD->WBP_Rune_Menu->InitParamsRuneMenu();
+	if(Main_HUD->WBP_Rune_Menu)
+		Main_HUD->WBP_Rune_Menu->InitParamsRuneMenu();
 
-	for (int i = 0; i < Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage.Num(); i++)
+	if (Main_HUD->WBP_Upgrade_Menu)
 	{
-		Main_HUD->WBP_Upgrade_Menu->Upgrade_Slot_Widget[i]->SetNewSlot(Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage[i]);
+		for (int i = 0; i < Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage.Num(); i++)
+		{
+			Main_HUD->WBP_Upgrade_Menu->Upgrade_Slot_Widget[i]->SetNewSlot(Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage[i].RN_ID, Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage[i].Amount, Main_HUD->WBP_Upgrade_Menu->Upgrade_Storage[i].Item_Icon);
+		}
 	}
-
 }
 //-------------------------------------------------------------------------------------------------------------
 //GET
@@ -88,6 +103,9 @@ FGameplayTagContainer ACPP_Player_Controller::GetControllerStatus()
 //-------------------------------------------------------------------------------------------------------------
 void ACPP_Player_Controller::PickUpItemInfo(FName name, int amount)
 {
+	if (!Main_HUD->WBP_Inventory)
+		return;
+
 	switch (Main_HUD->WBP_Inventory->GetVisibility())
 	{
 		case ESlateVisibility::Collapsed:
@@ -95,6 +113,5 @@ void ACPP_Player_Controller::PickUpItemInfo(FName name, int amount)
 		auto *temp_widget = CreateWidget<UCPPW_Pick_Up_Info>(Pick_Up_Info);
 		Main_HUD->WBP_Pick_Up_Menu->Vertical_Box->AddChild(temp_widget);
 		break;
-
 	}
 }

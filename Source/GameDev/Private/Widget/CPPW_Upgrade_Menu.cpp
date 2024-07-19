@@ -9,8 +9,12 @@
 //-------------------------------------------------------------------------------------------------------------
 void UCPPW_Upgrade_Menu::NativeConstruct()
 {
+	FS_Items temp_empty_item;
 	Upgrade_Slot_Widget.Add(WBP_Inventory_Slot);
 	Upgrade_Slot_Widget.Add(WBP_Inventory_Slot_1);
+
+	Upgrade_Storage.Add(temp_empty_item);
+	Upgrade_Storage.Add(temp_empty_item);
 }
 //-------------------------------------------------------------------------------------------------------------
 void UCPPW_Upgrade_Menu::UpdateText()

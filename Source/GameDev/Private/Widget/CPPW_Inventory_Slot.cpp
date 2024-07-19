@@ -4,9 +4,7 @@
 #include "GameDev/CPP_Stats_Component.h"
 #include "BFL/CPP_BFL.h"
 #include "Widget/CPPW_Item_Info_Panel.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
 void UCPPW_Inventory_Slot::GetRuneStats()
 {
 	if (Storage_Type != E_Storage_Type::E_Rune_Menu)
@@ -61,15 +59,12 @@ void UCPPW_Inventory_Slot::GetRuneStats()
 		Map_Rune_Stats.Add(FName("Attack Speed"), rune_stats.Attack_Speed);
 
 }
-
-
 //-------------------------------------------------------------------------------------------------------------
-
-void UCPPW_Inventory_Slot::SetNewSlot(FS_Items s_items)
+void UCPPW_Inventory_Slot::SetNewSlot(FName name, int amount, TSoftObjectPtr<UTexture2D> icon)
 {
-	Name = s_items.RN_ID;
-	Amount = s_items.Amount;
-	Item_Icon = s_items.Item_Icon;
+	Name = name;
+	Amount = amount;
+	Item_Icon = icon;
 
 	GetRuneStats();
 

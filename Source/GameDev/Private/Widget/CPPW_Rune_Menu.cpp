@@ -4,9 +4,7 @@
 #include "GameDev/CPP_Character_Master.h"
 #include "GameDev/CPP_Stats_Component.h"
 #include "Kismet/GameplayStatics.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
 void UCPPW_Rune_Menu::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -27,12 +25,8 @@ void UCPPW_Rune_Menu::NativeConstruct()
 	Text_Block_Array.Add(Text_Block_2);
 	Text_Block_Array.Add(Text_Block_3);
 	Text_Block_Array.Add(Text_Block_4);
-
-	InitParamsRuneMenu();
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 void UCPPW_Rune_Menu::InitParamsRuneMenu()
 {
 	for (int i = 0; i < Inventory_Slot_Array.Num(); i++)
@@ -92,5 +86,4 @@ void UCPPW_Rune_Menu::InitParamsRuneMenu()
 	}
 
 }
-
 //-------------------------------------------------------------------------------------------------------------

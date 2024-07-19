@@ -48,7 +48,6 @@ void UCPPW_Main_HUD::DragDropLogic()
 	//Chest to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Chest)
 	{
-
 		if (Drop_Index == Drag_Index || !character_chest->Items_Array[Drag_Index].Is_Not_Empty)
 			return;
 
@@ -63,8 +62,6 @@ void UCPPW_Main_HUD::DragDropLogic()
 		{
 			character_chest->Items_Array.Swap(Drag_Index, Drop_Index);
 		}
-
-
 	}
 	//Inventory to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Chest)

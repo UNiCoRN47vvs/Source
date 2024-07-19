@@ -7,9 +7,7 @@
 #include "Widget/CPPW_Mini_Map_Icon.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
-
 //-------------------------------------------------------------------------------------------------------------
-
 ACPP_Master_Item::ACPP_Master_Item()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -25,9 +23,7 @@ ACPP_Master_Item::ACPP_Master_Item()
 	Widget->SetupAttachment(Static_Mesh);
 	Mini_Map_Widget->SetupAttachment(Static_Mesh);
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 void ACPP_Master_Item::InitParams()
 {
 	ACPP_Player_Controller* player_controller = Cast<ACPP_Player_Controller>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
@@ -74,14 +70,10 @@ void ACPP_Master_Item::InitParams()
 		GEngine->AddOnScreenDebugMessage(-1, 4.0, FColor::Blue, TEXT("Failed to load mesh from soft reference"));
 	}
 }
-
 //-------------------------------------------------------------------------------------------------------------
-
 void ACPP_Master_Item::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
-
 //-------------------------------------------------------------------------------------------------------------
 
