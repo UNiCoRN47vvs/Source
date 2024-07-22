@@ -35,15 +35,11 @@ void UCPPW_Main_HUD::DragDropLogic()
 		FS_Items local_drop = character_inventory->Items_Array[Drop_Index];
 
 		if (local_drag.RN_ID == local_drop.RN_ID && !(local_drop.Amount == local_drop.Max_Count))
-		{
 			AddItemSwitchItem(character_inventory->Items_Array, character_inventory->Items_Array);
-		}
 		else
-		{
 			character_inventory->Items_Array.Swap(Drag_Index, Drop_Index);
-		}
 
-
+		return;
 	}
 	//Chest to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Chest && Drop_Storage_Type == E_Storage_Type::E_Chest)
@@ -300,7 +296,7 @@ void UCPPW_Main_HUD::DragDropLogic()
 	}
 }
 //-------------------------------------------------------------------------------------------------------------
-bool UCPPW_Main_HUD::OnDrop(const FGeometry &MyGeometry, const FDragDropEvent &DragDropEvent, UDragDropOperation *Operation)
+bool UCPPW_Main_HUD::NativeOnDrop(const FGeometry &InGeometry, const FDragDropEvent &InDragDropEvent, UDragDropOperation *InOperation)
 {
 	ACPP_Player_Controller *player_controller = Cast<ACPP_Player_Controller>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (!IsValid(player_controller))

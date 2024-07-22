@@ -1,9 +1,13 @@
 #include "Widget/CPPW_Inventory_Slot.h"
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "GameDev/CPP_Character_Master.h"
 #include "GameDev/CPP_Stats_Component.h"
+#include "Components/CanvasPanelSlot.h"
+#include "CPP_Player_Controller.h"
 #include "BFL/CPP_BFL.h"
 #include "Widget/CPPW_Item_Info_Panel.h"
+#include "Widget/CPPW_Item_Menu.h"
 //-------------------------------------------------------------------------------------------------------------
 void UCPPW_Inventory_Slot::GetRuneStats()
 {
@@ -69,13 +73,14 @@ void UCPPW_Inventory_Slot::SetNewSlot(FName name, int amount, TSoftObjectPtr<UTe
 	GetRuneStats();
 
 	UTexture2D* loaded_item_icon = Item_Icon.LoadSynchronous();
-	if(!loaded_item_icon)
+	if (!loaded_item_icon)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 4.0, FColor::Blue, TEXT("CPPW_Inventory_Slot, Item_Icon is not valid!"));
-		return;
-	}
-
-	Border_Icon->SetBrushFromTexture(loaded_item_icon);
+		UTexture2D* loaded_slot_icon = Slot_Icon.LoadSynchronous();
+		if(loaded_slot_icon)
+			Border_Icon->SetBrushFromTexture(loaded_slot_icon);
+	} 
+	else 
+		Border_Icon->SetBrushFromTexture(loaded_item_icon);
 
 	if (Name == "")
 	{
@@ -85,4 +90,26 @@ void UCPPW_Inventory_Slot::SetNewSlot(FName name, int amount, TSoftObjectPtr<UTe
 	{
 		Tool_Tip = CreateWidget<UCPPW_Item_Info_Panel>(GetWorld(), Widget_Class);
 	}
+}
+//-------------------------------------------------------------------------------------------------------------
+void UCPPW_Inventory_Slot::ShowItemMenuWidget(int item_index, E_Items_Type item_type, E_Storage_Type temp_storage_type)
+{
+	if (!Player_Controller)
+		Player_Controller = Cast<ACPP_Player_Controller>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
+	if (Player_Controller->Main_HUD->Current_Item_Menu_Widget)
+		Player_Controller->Main_HUD->Current_Item_Menu_Widget->HideItemMenu();
+
+	auto* local_widget = CreateWidget<UCPPW_Item_Menu>(GetWorld(), Item_Menu_Widget);
+	Player_Controller->Main_HUD->Current_Item_Menu_Widget = local_widget;
+
+	auto canvas_panel_slot = Player_Controller->Main_HUD->Canvas->AddChildToCanvas(Player_Controller->Main_HUD->Current_Item_Menu_Widget);
+	FVector2D local_mouse_position = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetWorld());
+
+	canvas_panel_slot->SetAutoSize(false);
+	local_mouse_position.X -= 50;
+	local_mouse_position.Y -= 10;
+	canvas_panel_slot->SetPosition(local_mouse_position);
+
+
 }

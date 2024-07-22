@@ -58,9 +58,6 @@ void ACPP_Player_Controller::UpdateInventory()
 		if (!Main_HUD->WBP_Inventory)
 			break;
 
-		if (!inventory_component->Items_Array[i].Is_Not_Empty)
-			continue;
-
 		auto *item_icon = Cast<UCPPW_Inventory_Slot>(Main_HUD->WBP_Inventory->Uniform_Grid_Panel->GetChildAt(i));
 		if (item_icon)
 			item_icon->SetNewSlot(inventory_component->Items_Array[i].RN_ID, inventory_component->Items_Array[i].Amount, inventory_component->Items_Array[i].Item_Icon);
@@ -110,8 +107,12 @@ void ACPP_Player_Controller::PickUpItemInfo(FName name, int amount)
 	{
 		case ESlateVisibility::Collapsed:
 		case ESlateVisibility::Hidden:
-		auto *temp_widget = CreateWidget<UCPPW_Pick_Up_Info>(Pick_Up_Info);
-		Main_HUD->WBP_Pick_Up_Menu->Vertical_Box->AddChild(temp_widget);
+		{
+			auto *temp_widget = CreateWidget<UCPPW_Pick_Up_Info>(GetWorld(), Pick_Up_Info);
+			temp_widget->Name = name;
+			temp_widget->Amount = amount;
+			Main_HUD->WBP_Pick_Up_Menu->Vertical_Box->AddChild(temp_widget);
+		}
 		break;
 	}
 }
