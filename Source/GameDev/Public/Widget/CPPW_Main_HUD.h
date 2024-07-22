@@ -2,8 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Blueprint/DragDropOperation.h"
 #include "Enum/E_Storage_Type.h"
 #include "Components/HorizontalBox.h"
+#include "Components/CanvasPanel.h"
 #include "CPPW_Main_HUD.generated.h"
 //-------------------------------------------------------------------------------------------------------------
 class UCPPW_HealthBar;
@@ -18,6 +20,7 @@ class UCPPW_Skill_Bar;
 class UCPPW_Character_Stats;
 class UCPPW_Skill_Tree;
 class UCPPW_Item_Menu;
+class UCPPW_Trade_Menu;
 struct FS_Items;
 //-------------------------------------------------------------------------------------------------------------
 UCLASS()
@@ -27,6 +30,7 @@ class GAMEDEV_API UCPPW_Main_HUD : public UUserWidget
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Drag & Drop") int Drop_Index;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Drag & Drop") int Drag_Index;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPPW_Main_HUD") UCanvasPanel *Canvas;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPPW_Main_HUD") UUserWidget *Left_Widget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPPW_Main_HUD") UUserWidget *Center_Widget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CPPW_Main_HUD") UUserWidget *Right_Widget;
@@ -43,13 +47,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) UCPPW_Skill_Bar* WBP_Skill_Bar;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) UCPPW_Character_Stats* WBP_Character_Stats;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) UCPPW_Skill_Tree* WBP_Skill_Tree;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) UCPPW_Trade_Menu* WBP_Trade_Menu;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget)) UHorizontalBox* Buff_Info_Menu;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Drag & Drop") E_Storage_Type Drop_Storage_Type;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Drag & Drop") E_Storage_Type Drag_Storage_Type;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Portal") TSubclassOf<AActor> Portal_Altar;
 
 protected:
-	virtual bool OnDrop(const FGeometry &MyGeometry, const FDragDropEvent &DragDropEvent, UDragDropOperation *Operation);
+	virtual bool NativeOnDrop(const FGeometry &InGeometry, const FDragDropEvent &InDragDropEvent, UDragDropOperation *InOperation) override;
 
 private:
 	void DragDropLogic();

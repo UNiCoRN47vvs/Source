@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "E_Storage_Type.generated.h"
-
 //-------------------------------------------------------------------------------------------------------------
 UENUM(BlueprintType)
 
