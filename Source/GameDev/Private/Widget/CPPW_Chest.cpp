@@ -21,7 +21,7 @@ void UCPPW_Chest::NativeConstruct()
 	{
 		auto *temp_slot_widget = CreateWidget<UCPPW_Inventory_Slot>(GetWorld(), Inventory_Slot_Widget);
 		temp_slot_widget->Index = i;
-		temp_slot_widget->Storage_Type = E_Storage_Type::E_Inventory;
+		temp_slot_widget->Storage_Type = E_Storage_Type::E_Chest;
 		Uniform_Grid_Panel->AddChildToUniformGrid(temp_slot_widget, i / temp_mis_per_row, i % temp_mis_per_row);
 	}
 	player_controller->UpdateInventory();

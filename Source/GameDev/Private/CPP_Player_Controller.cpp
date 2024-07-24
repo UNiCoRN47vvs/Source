@@ -68,9 +68,6 @@ void ACPP_Player_Controller::UpdateInventory()
 		if (!Main_HUD->WBP_Chest)
 			break;
 
-		if (!chest_component->Items_Array[i].Is_Not_Empty)
-			continue;
-
 		auto *item_icon = Cast<UCPPW_Inventory_Slot>(Main_HUD->WBP_Chest->Uniform_Grid_Panel->GetChildAt(i));
 		if (item_icon)
 			item_icon->SetNewSlot(chest_component->Items_Array[i].RN_ID, chest_component->Items_Array[i].Amount, chest_component->Items_Array[i].Item_Icon);

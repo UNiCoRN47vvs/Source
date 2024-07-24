@@ -62,7 +62,7 @@ void UCPPW_Main_HUD::DragDropLogic()
 	//Inventory to Chest
 	if (Drag_Storage_Type == E_Storage_Type::E_Inventory && Drop_Storage_Type == E_Storage_Type::E_Chest)
 	{
-		if (Drop_Index == Drag_Index || !character_inventory->Items_Array[Drag_Index].Is_Not_Empty)
+		if (!character_inventory->Items_Array[Drag_Index].Is_Not_Empty)
 			return;
 
 		FS_Items local_drag = character_inventory->Items_Array[Drag_Index];
