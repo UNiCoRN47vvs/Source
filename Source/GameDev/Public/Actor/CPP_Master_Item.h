@@ -24,9 +24,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components") TObjectPtr<UWidgetComponent> Widget;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components") TObjectPtr<UWidgetComponent> Mini_Map_Widget;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info", meta = (ExposeOnSpawn = "VALUE") ) FName Item_Row_Name;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info", meta = (ExposeOnSpawn = "VALUE") ) int Amount;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info", meta = (ExposeOnSpawn = "VALUE") ) int Item_Level;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info", meta = (ExposeOnSpawn = "true") ) FName Item_Row_Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info", meta = (ExposeOnSpawn = "true") ) int Amount;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info", meta = (ExposeOnSpawn = "true") ) int Item_Level;
 
 
 
